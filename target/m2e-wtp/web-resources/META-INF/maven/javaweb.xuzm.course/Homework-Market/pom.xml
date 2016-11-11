@@ -79,7 +79,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>study</finalName>
+		<finalName>Homework-Market</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
