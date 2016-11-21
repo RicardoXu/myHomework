@@ -12,6 +12,7 @@ public interface ProductDao {
 
 	// 查询商品信息
 	@Results({ 
+		//id = true means `id` is primary key
 		@Result(id = true, property = "id", column = "id"), 
 		@Result(property = "title", column = "title"), 
 		@Result(property = "image", column = "icon"), 

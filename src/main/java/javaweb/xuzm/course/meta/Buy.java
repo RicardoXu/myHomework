@@ -11,7 +11,6 @@ public class Buy {
 	private double buyPrice;
 	// 购买数量 查询数量相加
 	private int buyNum;
-	private int number;
 	// 购买时间 trx表
 	private Long buyTime;
 	// 购买的金额 价格相加
@@ -55,14 +54,6 @@ public class Buy {
 
 	public void setBuyNum(int buyNum) {
 		this.buyNum = buyNum;
-	}
-
-	public int getNumber() {
-		return number;
-	}
-
-	public void setNumber(int number) {
-		this.number = number;
 	}
 
 	public Long getBuyTime() {

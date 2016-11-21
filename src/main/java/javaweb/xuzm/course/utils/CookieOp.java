@@ -8,9 +8,9 @@ import javaweb.xuzm.course.meta.User;
 
 public class CookieOp {
 
+	//这里的Cookie没有实际上的用途，只是为Session提供生存环境
 	// 为合法用户创建cookie
 	public void setCookie(User user, HttpServletResponse response) {
-		int userType = user.getUsertype();
 		Cookie userNameCookie = new Cookie("userName", user.getUsername());
 		userNameCookie.setMaxAge(24 * 60 * 60);
 		response.addCookie(userNameCookie);

@@ -1,0 +1,75 @@
+--- tomcat7	2016-04-07 13:53:15.244016296 +0800
++++ tomcat7.new	2016-04-07 14:20:00.864245899 +0800
+@@ -180,6 +180,27 @@
+ 	return $status
+ }
+ 
++
++check_process_doesnt_exist() {
++
++	if [ ! -f $CATALINA_PID ]; then
++		return 0
++	fi
++
++	pid=`cat $CATALINA_PID`
++	kill -0 $pid 
++	if [ "$?" = "0" ]; then
++		ps -u "$TOMCAT7_USER" | grep "$pid"
++		if [ "$?" = "0" ]; then
++			return 1
++		else
++			return 0
++		fi
++	else
++		return 0
++	fi
++}
++	
+ case "$1" in
+   start)
+ 	if [ -z "$JAVA_HOME" ]; then
+@@ -193,9 +214,8 @@
+ 	fi
+ 
+ 	log_daemon_msg "Starting $DESC" "$NAME"
+-	if start-stop-daemon --test --start --pidfile "$CATALINA_PID" \
+-		--user $TOMCAT7_USER --exec "$JAVA_HOME/bin/java" \
+-		>/dev/null; then
++
++	if check_process_doesnt_exist >/dev/null 2>&1; then
+ 
+ 		# Regenerate POLICY_CACHE file
+ 		umask 022
+@@ -215,9 +235,7 @@
+ 
+ 		catalina_sh start $SECURITY
+ 		sleep 5
+-        	if start-stop-daemon --test --start --pidfile "$CATALINA_PID" \
+-			--user $TOMCAT7_USER --exec "$JAVA_HOME/bin/java" \
+-			>/dev/null; then
++        	if check_process_doesnt_exist >/dev/null 2>&1; then
+ 			if [ -f "$CATALINA_PID" ]; then
+ 				rm -f "$CATALINA_PID"
+ 			fi
+@@ -255,9 +273,7 @@
+ 	;;
+    status)
+ 	set +e
+-	start-stop-daemon --test --start --pidfile "$CATALINA_PID" \
+-		--user $TOMCAT7_USER --exec "$JAVA_HOME/bin/java" \
+-		>/dev/null 2>&1
++	check_process_doesnt_exist >/dev/null 2>&1
+ 	if [ "$?" = "0" ]; then
+ 
+ 		if [ -f "$CATALINA_PID" ]; then
+@@ -280,9 +296,7 @@
+ 	$0 start
+ 	;;
+   try-restart)
+-        if start-stop-daemon --test --start --pidfile "$CATALINA_PID" \
+-		--user $TOMCAT7_USER --exec "$JAVA_HOME/bin/java" \
+-		>/dev/null; then
++        if check_process_doesnt_exist >/dev/null 2>&1; then
+ 		$0 start
+ 	fi
+         ;;

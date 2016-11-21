@@ -47,7 +47,8 @@ public class DefaultController {
 		map.addAttribute("user", user);
 		return user;
 	}
-
+	
+	// 同步数据
 	// 1.登录页
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request, ModelMap map) {
@@ -188,6 +189,7 @@ public class DefaultController {
 		return "publicSubmit";
 	}
 
+	// 异步数据
 	// 1.登录
 	@ResponseBody
 	@RequestMapping("/api/login")
